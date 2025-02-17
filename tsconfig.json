@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2016",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": false,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "resolveJsonModule": true,
+        "rootDir": ".",
+        "newLine": "LF"
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/*.ts",
+        "index.ts"
+    ]
+}
