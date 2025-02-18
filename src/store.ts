@@ -1,12 +1,13 @@
 import { NGAConfigFetcher } from "./config";
 import NGAEntity from "./entity";
 import { NGALoaderResponse } from "./loader";
+import NGACache from "./cache";
 
 export default class NGAStore<T extends NGAEntity> {
-    private data: Map<string, T> = new Map();
+    private cache: NGACache<T>;
 
     constructor(store: string) {
-        const config = new NGAConfigFetcher().configFromStoreName(store);
+        const config = NGAConfigFetcher.getConfig(store);
         if(!config) {
             throw new Error(`Error loading store ${store}: configuration not defined or not correct`);
         }
@@ -17,10 +18,10 @@ export default class NGAStore<T extends NGAEntity> {
         }
 
         const entities: T[] = config.mapper.fromRepoResponse(loaderResponse.content) as T[];
-        entities.forEach(e => this.data.set(e.getId(), e));
+        this.cache = new NGACache<T>(entities);
     }
 
-    getData(): Map<string, T> {
-        return this.data;
+    getCache(): NGACache<T> {
+        return this.cache;
     }
 }

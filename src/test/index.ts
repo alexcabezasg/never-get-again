@@ -1,6 +1,6 @@
 import NGAEntity from "../entity";
 import { NGAMapper } from "../mapper";
-import NGAStore from "../store";
+import NGARepository from "../repository";
 
 class User extends NGAEntity {
     name: string
@@ -13,7 +13,7 @@ class User extends NGAEntity {
     }
 }
 
-export class UserMapper implements NGAMapper {
+export class UsersMapper implements NGAMapper {
     fromRepoResponse(loaderResponse: any): User[] {
         return loaderResponse.map(entry => {
             return new User(entry.id, entry.name, entry.surname)
@@ -21,12 +21,4 @@ export class UserMapper implements NGAMapper {
     }
 }
 
-class UserRepository {
-    private userStore: NGAStore<User> = new NGAStore<User>("users");
-
-    byId(id: string): User {
-        return this.userStore.getData().get(id);
-    }
-}
-
-console.log(new UserRepository().byId("1"))
+console.log(new NGARepository<User>("users").byId("1"));
