@@ -1,24 +1,33 @@
-export interface NGALoaderResponse {
-    content: any
-}
-
 export interface NGALoader {
     getResource() : NGALoaderResponse
 }
 
-export class NGAHttpLoader implements NGALoader {
-    readonly url: string
+export interface NGAHttpLoaderConfig {
+    url: string
+}
 
-    constructor(url: string) {
-        this.url = url;
+export interface NGALoaderResponse {
+    content: any
+}
+
+export class NGAHttpLoader implements NGALoader {
+    private readonly config: NGAHttpLoaderConfig;
+
+    constructor(config: NGAHttpLoaderConfig) {
+        this.config = config;
     }
 
     getResource() : NGALoaderResponse {
         return {
             content: [
             {
-                id: "1",
+                id: 1,
                 name: "Alejandro",
+                surname: "Cabezas"
+            },
+            {
+                id: 2,
+                name: "Fernando",
                 surname: "Cabezas"
             }
         ]

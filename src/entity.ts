@@ -1,11 +1,11 @@
 export default abstract class NGAEntity {
-    protected id: string;
+    protected id: string | number;
 
     constructor(id) {
         this.id = id;
     }
 
-    getId() : string {
+    getId() : string | number {
         return this.id;
     }
 }

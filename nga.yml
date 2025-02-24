@@ -1,8 +1,0 @@
-# Config
-caches:
-  - entity-a:
-    loader:
-      type: http,
-      url: "http://localhost:3000/users"
-    mapper: UsersMapper
-

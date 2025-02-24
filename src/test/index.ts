@@ -1,5 +1,6 @@
 import NGAEntity from "../entity";
-import { NGAMapper } from "../mapper";
+import { NGAHttpLoader } from "../loader";
+import { NGADefaultMapper } from "../mapper";
 import NGARepository from "../repository";
 
 class User extends NGAEntity {
@@ -13,12 +14,22 @@ class User extends NGAEntity {
     }
 }
 
-export class UsersMapper implements NGAMapper {
-    fromRepoResponse(loaderResponse: any): User[] {
-        return loaderResponse.map(entry => {
-            return new User(entry.id, entry.name, entry.surname)
+class UsersRepository extends NGARepository<User> {
+    constructor() {
+        super({
+            loader: new NGAHttpLoader({
+                url: "http://localhost:3000/users"
+            }),
+            mapper: new NGADefaultMapper(User)
         });
+    }
+
+    getByName(name: string): User | undefined {
+        return this.all().find(user => user.name == name);
     }
 }
 
-console.log(new NGARepository<User>("users").byId("1"));
+const repository = new UsersRepository();
+
+console.log(repository.byId("1"));
+console.log(repository.getByName("Fernando"));
