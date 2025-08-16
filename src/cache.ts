@@ -1,18 +1,17 @@
 import NodeCache from "node-cache";
-import NGAEntity from "./entity";
 
-export default class NGACache<T extends NGAEntity> {
+export default class NGACache {
     private readonly cache: NodeCache = new NodeCache();
 
-    constructor(entities: T[]) {
-        this.cache.mset(entities.map(e => ({ key: e.getId(), val: e })))
+    constructor(entityId: string, entities: Object[]) {
+        this.cache.mset(entities.map(e => ({ key: e[entityId], val: e })))
     }
 
-    all(): T[] {
-        return this.cache.keys().map(key => this.cache.get(key));
-    }
-
-    byId(id: string): T {
+    get(id: string): Object {
         return this.cache.get(id);
+    }
+
+    all(): Object[] {
+        return this.cache.keys().map(key => this.cache.get(key));
     }
 }

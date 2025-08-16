@@ -1,35 +1,13 @@
+import { NGAHttpConfig } from "./config";
+
 export interface NGALoader {
-    getResource() : NGALoaderResponse
-}
-
-export interface NGAHttpLoaderConfig {
-    url: string
-}
-
-export interface NGALoaderResponse {
-    content: any
+    load() : Promise<Record<string, any>[]>
 }
 
 export class NGAHttpLoader implements NGALoader {
-    private readonly config: NGAHttpLoaderConfig;
+    constructor(private config: NGAHttpConfig) {}
 
-    constructor(config: NGAHttpLoaderConfig) {
-        this.config = config;
+    load() : Promise<Record<string, any>[]> {
+        return fetch(this.config.url).then(response => response.json());
     }
-
-    getResource() : NGALoaderResponse {
-        return {
-            content: [
-            {
-                id: 1,
-                name: "Alejandro",
-                surname: "Cabezas"
-            },
-            {
-                id: 2,
-                name: "Fernando",
-                surname: "Cabezas"
-            }
-        ]
-    }};
 }

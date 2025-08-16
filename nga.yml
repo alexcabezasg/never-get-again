@@ -1,0 +1,8 @@
+storage:
+  - name: users
+    type: http
+    url: http://localhost:3000/users
+    refreshInterval: 5000
+    mapper:
+      class: User
+      key: id
