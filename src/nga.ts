@@ -1,10 +1,11 @@
 import NGAScheduler from "./util/scheduler";
 import NGAMapper from "./mapper";
-import NGACache from "./cache";
+import { NGADefaultCache } from "./cache";
 import { NGAConfigLoader } from "./config/configLoader";
 import { NGAConfig, NGAStoreConfig } from "./config/config";
 import { NGACacheManager } from "./util/cacheManager";
 import { NGALoaderFactory } from "./config/loaderFactory";
+import { NGAIndexesManager } from "./util/indexesManager";
 
 const NGA = {
     start: async () => {
@@ -28,8 +29,13 @@ const NGA = {
         try {
             const data = await NGALoaderFactory.create(config).load();
             const entities = await NGAMapper.map(config.mapper.class, data);
-            const cache = new NGACache(config.mapper.key, entities);
+            const cache = new NGADefaultCache(config.mapper.key, entities);
             NGACacheManager.getInstance().add(config.mapper.class, cache);
+
+            config.indexes.forEach((index) => {
+                NGAIndexesManager.createIndex(config.mapper.class, config.mapper.key, index, entities);
+            });
+
             console.log(`[NGA] ✓ Successfully loaded ${entities.length} entities of type ${config.mapper.class}`);
             return { success: true, name: config.name };
         } catch (error) {

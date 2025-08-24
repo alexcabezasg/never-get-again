@@ -8,6 +8,7 @@ A flexible and efficient data replication system that fetches data from various 
 
 - 🔄 **Automatic Data Synchronization**: Keep your data fresh with configurable refresh intervals
 - 🎯 **Type-Safe**: Full TypeScript support with automatic type inference
+- 📑 **Smart Indexing**: Create custom indexes for faster data lookups
 - 🔌 **Extensible**: Easy to add new data sources and caching strategies
 - 🚀 **Performance Focused**: Local caching for fast data access
 - ⚡ **Lightweight**: Zero external runtime dependencies
@@ -33,6 +34,12 @@ stores:
       key: id
     config:
       url: http://api.example.com/users
+    # Optional: Define indexes for faster lookups
+    indexes:
+      - key: byRole      # Index name
+        field: role      # Field to index by
+      - key: byCountry
+        field: country
 
   - name: products
     type: http
@@ -42,6 +49,11 @@ stores:
       key: sku
     config:
       url: http://api.example.com/products
+    indexes:
+      - key: byCategory
+        field: category
+      - key: byPrice
+        field: price
 ```
 
 2. Define your entity classes (empty constructor is required):
@@ -52,11 +64,15 @@ export class User {
     id: string;
     name: string;
     email: string;
+    role: string;
+    country: string;
 
     constructor() {
-      this.id = '';
-      this.name = '';
-      this.email = '';
+        this.id = '';
+        this.name = '';
+        this.email = '';
+        this.role = '';
+        this.country = '';
     }
 }
 
@@ -65,11 +81,13 @@ export class Product {
     sku: string;
     name: string;
     price: number;
+    category: string;
 
     constructor() {
-      this.sku = '';
-      this.name = '';
-      this.price = 0;
+        this.sku = '';
+        this.name = '';
+        this.price = 0;
+        this.category = '';
     }
 }
 ```
@@ -99,6 +117,12 @@ const user = NGARepository.get<User>(User, 'user-123');
 
 // Get all entities
 const products = NGARepository.all<Product>(Product);
+
+// Get entities by index
+const adminUsers = NGARepository.getByIndex<User>(User, 'byRole', 'admin');
+const usProducts = NGARepository.getByIndex<User>(User, 'byCountry', 'US');
+const laptops = NGARepository.getByIndex<Product>(Product, 'byCategory', 'laptops');
+const expensiveProducts = NGARepository.getByIndex<Product>(Product, 'byPrice', '1000');
 ```
 
 ## Configuration
@@ -115,6 +139,9 @@ const products = NGARepository.all<Product>(Product);
 | mapper.key | string | Primary key field name |
 | config | object | Source-specific configuration |
 | config.url | string | (For HTTP) Data source URL |
+| indexes | array | Optional array of index configurations |
+| indexes[].key | string | Unique identifier for the index |
+| indexes[].field | string | Entity field to index by |
 
 ### Supported Data Sources
 
@@ -137,6 +164,28 @@ export class CustomLoader implements NGALoader {
     }
 }
 ```
+
+### Using Indexes
+
+Indexes provide fast lookups for entities based on specific fields:
+
+```typescript
+// Get all products in a specific category
+const gamingProducts = NGARepository.getByIndex<Product>(Product, 'byCategory', 'gaming');
+
+// Get all users with a specific role
+const moderators = NGARepository.getByIndex<User>(User, 'byRole', 'moderator');
+
+// Get products in a price range (note: values are converted to strings)
+const premiumProducts = NGARepository.getByIndex<Product>(Product, 'byPrice', '1000');
+```
+
+Index features:
+- Automatic index creation and maintenance
+- Fast lookups by indexed fields
+- Support for any field type (values are converted to strings)
+- Multiple indexes per entity
+- Automatic index updates when data refreshes
 
 ### Error Handling
 
@@ -164,6 +213,13 @@ if (user) {
     // user is typed as User
     console.log(user.name);
 }
+
+// Index lookups are also type-safe
+const adminUsers = NGARepository.getByIndex<User>(User, 'byRole', 'admin');
+adminUsers.forEach(user => {
+    // Each user is properly typed
+    console.log(user.email);
+});
 ```
 
 ## Contributing

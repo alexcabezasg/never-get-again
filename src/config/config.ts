@@ -8,6 +8,12 @@ export interface NGAStoreConfig {
     config: NGALoaderConfig;
     mapper: NGAMapperConfig;
     refreshInterval: number;
+    indexes: NGAIndexConfig[];
+}
+
+export interface NGAIndexConfig {
+    key: string;
+    field: string;
 }
 
 export interface NGAMapperConfig {

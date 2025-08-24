@@ -1,6 +1,10 @@
 import NodeCache from "node-cache";
 
-export default class NGACache {
+export interface NGACache {
+    get(id: string): Object;
+}
+
+export class NGADefaultCache implements NGACache {
     private readonly cache: NodeCache = new NodeCache();
 
     constructor(entityId: string, entities: Object[]) {
@@ -18,5 +22,17 @@ export default class NGACache {
 
     all(): Object[] {
         return this.cache.keys().map(key => this.cache.get(key));
+    }
+}
+
+export class NGAIndexCache implements NGACache {
+    private readonly cache: NodeCache = new NodeCache();
+
+    constructor(indexes: Map<string, string[]>) {
+        this.cache.mset(Array.from(indexes.entries()).map(e => ({ key: e[0], val: e[1] })));
+    }
+
+    get(index: string): string[] {
+        return this.cache.get(index);
     }
 }
