@@ -1,4 +1,4 @@
-import NGACache from '../cache';
+import NGACache from '../src/cache';
 
 describe('NGACache', () => {
   // Test data

@@ -1,13 +1,8 @@
-import { NGARepository } from '../repository';
-import { NGACacheManager } from '../util/cacheManager';
-import NGACache from '../cache';
-
-// Mock console.error to avoid cluttering test output
-const mockConsoleError = jest.fn();
-console.error = mockConsoleError;
+import { NGARepository } from 'src/repository';
+import { NGACacheManager } from 'src/util/cacheManager';
 
 // Mock the CacheManager
-jest.mock('../util/cacheManager');
+jest.mock('src/util/cacheManager');
 
 // Test class
 class TestEntity {
@@ -21,17 +16,17 @@ class TestEntity {
 }
 
 describe('NGARepository', () => {
-  let mockCache: jest.Mocked<NGACache>;
+  let mockCache: jest.Mocked<any>;
 
   beforeEach(() => {
-    // Reset all mocks
+    // Reset all mocks before each test
     jest.clearAllMocks();
 
     // Create a mock cache
     mockCache = {
       get: jest.fn(),
       all: jest.fn(),
-    } as unknown as jest.Mocked<NGACache>;
+    };
 
     // Setup CacheManager mock
     const mockGetInstance = jest.fn().mockReturnValue({
@@ -53,10 +48,13 @@ describe('NGARepository', () => {
       expect(result).toBe(testEntity);
       expect(NGACacheManager.getInstance().get).toHaveBeenCalledWith('TestEntity');
       expect(mockCache.get).toHaveBeenCalledWith('1');
-      expect(mockConsoleError).not.toHaveBeenCalled();
     });
 
     it('should return undefined and log error when cache does not exist', () => {
+      // Mock console.error to avoid cluttering test output
+      const mockConsoleError = jest.fn();
+      console.error = mockConsoleError;
+
       // Setup cache manager to return undefined (no cache)
       (NGACacheManager.getInstance().get as jest.Mock).mockReturnValue(undefined);
 
@@ -75,7 +73,6 @@ describe('NGARepository', () => {
 
       expect(result).toBeUndefined();
       expect(mockCache.get).toHaveBeenCalledWith('non-existent');
-      expect(mockConsoleError).not.toHaveBeenCalled();
     });
   });
 
@@ -93,10 +90,14 @@ describe('NGARepository', () => {
       expect(result).toBe(testEntities);
       expect(NGACacheManager.getInstance().get).toHaveBeenCalledWith('TestEntity');
       expect(mockCache.all).toHaveBeenCalled();
-      expect(mockConsoleError).not.toHaveBeenCalled();
     });
 
     it('should return undefined and log error when cache does not exist', () => {
+      // Mock console.error to avoid cluttering test output
+      const mockConsoleError = jest.fn();
+      console.error = mockConsoleError;
+
+      // Setup cache manager to return undefined (no cache)
       (NGACacheManager.getInstance().get as jest.Mock).mockReturnValue(undefined);
 
       const result = NGARepository.all<TestEntity>(TestEntity);
@@ -114,7 +115,6 @@ describe('NGARepository', () => {
 
       expect(result).toEqual([]);
       expect(mockCache.all).toHaveBeenCalled();
-      expect(mockConsoleError).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,6 +1,6 @@
-import { NGALoaderFactory } from '../config/loaderFactory';
-import { NGAHttpLoader } from '../loader';
-import { NGAStoreConfig } from '../config/config';
+import { NGALoaderFactory } from '../src/config/loaderFactory';
+import { NGAHttpLoader } from '../src/loader';
+import { NGAStoreConfig } from '../src/config/config';
 
 describe('NGALoaderFactory', () => {
     describe('create', () => {

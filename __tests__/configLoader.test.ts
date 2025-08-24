@@ -1,8 +1,8 @@
-import { NGAConfigLoader } from '../config/configLoader';
+import { NGAConfigLoader } from '../src/config/configLoader';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
 import { join } from 'path';
-import { NGAConfig } from '../config/config';
+import { NGAConfig } from '../src/config/config';
 
 // Mock dependencies
 jest.mock('fs', () => ({

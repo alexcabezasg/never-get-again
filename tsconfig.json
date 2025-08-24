@@ -9,11 +9,16 @@
         "outDir": "dist",
         "resolveJsonModule": true,
         "rootDir": ".",
-        "newLine": "LF"
+        "newLine": "LF",
+        "baseUrl": ".",
+        "paths": {
+            "src/*": ["src/*"]
+        }
     },
     "include": [
         "src/**/*.ts",
         "src/*.ts",
-        "index.ts"
+        "index.ts",
+        "__tests__/**/*.ts"
     ]
 }

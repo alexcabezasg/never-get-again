@@ -1,8 +1,8 @@
-import NGAMapper from '../mapper';
-import { ClassLoader } from '../util/classLoader';
+import NGAMapper from 'src/mapper';
+import { ClassLoader } from 'src/util/classLoader';
 
 // Mock the ClassLoader - needs to be before any test code
-jest.mock('../util/classLoader');
+jest.mock('src/util/classLoader');
 
 // Mock class for testing
 class TestUser {

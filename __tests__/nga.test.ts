@@ -1,17 +1,17 @@
-import NGAStart from '../nga';
-import { NGAConfigLoader } from '../config/configLoader';
-import NGAScheduler from '../util/scheduler';
-import NGAMapper from '../mapper';
-import { NGALoaderFactory } from '../config/loaderFactory';
-import { NGACacheManager } from '../util/cacheManager';
-import { NGAConfig, NGAStoreConfig } from '../config/config';
+import NGAStart from 'src/nga';
+import { NGAConfigLoader } from 'src/config/configLoader';
+import NGAScheduler from 'src/util/scheduler';
+import NGAMapper from 'src/mapper';
+import { NGALoaderFactory } from 'src/config/loaderFactory';
+import { NGACacheManager } from 'src/util/cacheManager';
+import { NGAConfig, NGAStoreConfig } from 'src/config/config';
 
 // Mock all dependencies
-jest.mock('../config/configLoader');
-jest.mock('../util/scheduler');
-jest.mock('../mapper');
-jest.mock('../config/loaderFactory');
-jest.mock('../util/cacheManager');
+jest.mock('src/config/configLoader');
+jest.mock('src/util/scheduler');
+jest.mock('src/mapper');
+jest.mock('src/config/loaderFactory');
+jest.mock('src/util/cacheManager');
 
 // Mock console methods to avoid cluttering test output
 const mockConsoleLog = jest.fn();
@@ -25,17 +25,17 @@ describe('NGA', () => {
     stores: [
       {
         name: 'TestStore1',
-        refreshInterval: 60000,
         type: 'http',
-        config: { url: 'http://test1.com' },
-        mapper: { class: 'TestEntity1', key: 'id' }
+        refreshInterval: 60000,
+        mapper: { class: 'TestEntity1', key: 'id' },
+        config: { url: 'http://test1.com' }
       },
       {
         name: 'TestStore2',
-        refreshInterval: 120000,
         type: 'http',
-        config: { url: 'http://test2.com' },
-        mapper: { class: 'TestEntity2', key: 'id' }
+        refreshInterval: 120000,
+        mapper: { class: 'TestEntity2', key: 'id' },
+        config: { url: 'http://test2.com' }
       }
     ]
   };

@@ -1,4 +1,4 @@
-import { ClassLoader } from '../util/classLoader';
+import { ClassLoader } from '../src/util/classLoader';
 import { readdirSync, statSync } from 'fs';
 import { join } from 'path';
 

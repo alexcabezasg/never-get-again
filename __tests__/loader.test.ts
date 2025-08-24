@@ -1,4 +1,4 @@
-import { NGAHttpLoader } from '../loader';
+import { NGAHttpLoader } from '../src/loader';
 
 // Mock the global fetch function
 const mockFetch = jest.fn();
