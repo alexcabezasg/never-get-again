@@ -1,4 +1,4 @@
-import { NGACacheManager } from "./cacheManager";
+import { NGACacheManager } from "./util/cacheManager";
 
 export const NGARepository = {
     get<T>(klass: any, id: string): T | undefined {

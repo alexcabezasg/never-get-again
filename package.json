@@ -4,7 +4,7 @@
   "description": "A simple replicator system that obtain the data from different resources and store it in different caches, improving the performance of the whole service",
   "main": "dist/index.js",
   "scripts": {
-    "start": "npx ts-node src/index.ts",
+    "start": "npx ts-node src/testing/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "alexcabezas0",

@@ -1,4 +1,4 @@
-import NGACache from "./cache";
+import NGACache from "../cache";
 
 export class NGACacheManager {
     private static instance: NGACacheManager;

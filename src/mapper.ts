@@ -12,13 +12,12 @@ const NGAMapper = {
         const obj = new klass();
 
         // Get properties from the static properties getter
-        const properties = (klass as any).properties || [];
+        const properties = Object.keys(obj);
 
         // Set the values using the internal properties
         properties.forEach(key => {
             if (key in data) {
-                const internalKey = `_${key}`;
-                (obj as any)[internalKey] = data[key];
+                (obj as any)[key] = data[key];
             }
         });
 
