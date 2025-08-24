@@ -4,7 +4,12 @@ export default class NGACache {
     private readonly cache: NodeCache = new NodeCache();
 
     constructor(entityId: string, entities: Object[]) {
-        this.cache.mset(entities.map(e => ({ key: e[entityId], val: e })))
+        if (entities.length > 0) {
+            const validEntities = entities.filter(e => e[entityId] !== undefined);
+            if (validEntities.length > 0) {
+                this.cache.mset(validEntities.map(e => ({ key: e[entityId], val: e })));
+            }
+        }
     }
 
     get(id: string): Object {

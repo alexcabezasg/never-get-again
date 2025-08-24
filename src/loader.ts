@@ -5,7 +5,11 @@ export interface NGALoader {
 export class NGAHttpLoader implements NGALoader {
     constructor(private url: string) {}
 
-    load() : Promise<Record<string, any>[]> {
-        return fetch(this.url).then(response => response.json());
+    async load(): Promise<Record<string, any>[]> {
+        const response = await fetch(this.url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
     }
 }

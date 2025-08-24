@@ -5,15 +5,22 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "npx ts-node src/testing/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "alexcabezas0",
   "license": "MIT",
   "dependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.0",
     "node-cache": "^5.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
-    "js-yaml": "^4.1.0",
-    "@types/js-yaml": "^4.0.9"
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.1"
   }
 }
