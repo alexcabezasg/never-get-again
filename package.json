@@ -1,27 +1,53 @@
 {
-  "name": "data-replicator",
-  "version": "1.0.0",
-  "description": "A simple replicator system that obtain the data from different resources and store it in different caches, improving the performance of the whole service",
+  "name": "never-get-again",
+  "version": "0.0.1",
+  "description": "A flexible and efficient data replication system that fetches data from various sources and maintains it in local caches",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
-    "start": "npx ts-node src/testing/index.ts",
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prepublishOnly": "npm run test && npm run build",
+    "prepare": "npm run build"
   },
+  "keywords": [
+    "cache",
+    "replication",
+    "data-sync",
+    "typescript",
+    "data-loader",
+    "indexing"
+  ],
   "author": "alexcabezas0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcabezasg/never-get-again.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexcabezasg/never-get-again/issues"
+  },
+  "homepage": "https://github.com/alexcabezasg/never-get-again#readme",
   "dependencies": {
-    "@types/js-yaml": "^4.0.9",
     "js-yaml": "^4.1.0",
-    "node-cache": "^5.1.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
     "jest": "^30.0.5",
-    "ts-jest": "^29.4.1"
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

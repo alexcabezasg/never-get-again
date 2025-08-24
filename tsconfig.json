@@ -2,23 +2,19 @@
     "compilerOptions": {
         "target": "es2016",
         "module": "commonjs",
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": true,
+        "moduleResolution": "node",
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "strict": false,
         "skipLibCheck": true,
-        "outDir": "dist",
+        "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "rootDir": ".",
-        "newLine": "LF",
-        "baseUrl": ".",
-        "paths": {
-            "src/*": ["src/*"]
-        }
+        "newLine": "LF"
     },
-    "include": [
-        "src/**/*.ts",
-        "src/*.ts",
-        "index.ts",
-        "__tests__/**/*.ts"
-    ]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "__tests__", "**/*.test.ts"]
 }

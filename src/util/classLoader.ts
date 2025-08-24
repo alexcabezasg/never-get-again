@@ -27,7 +27,7 @@ export class ClassLoader {
             return classModule.default;
         } catch (error) {
             console.error(`Error loading class ${className}:`, error);
-            return undefined;
+            throw error;
         }
     }
 

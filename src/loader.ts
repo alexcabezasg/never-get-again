@@ -1,11 +1,11 @@
 export interface NGALoader {
-    load() : Promise<Record<string, any>[]>
+    load() : Promise<unknown[]>
 }
 
 export class NGAHttpLoader implements NGALoader {
     constructor(private url: string) {}
 
-    async load(): Promise<Record<string, any>[]> {
+    async load(): Promise<unknown[]> {
         const response = await fetch(this.url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);

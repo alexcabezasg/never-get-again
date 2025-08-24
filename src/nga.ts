@@ -31,8 +31,8 @@ export class NGA {
 
     public static async load(config: NGAStoreConfig): Promise<LoadResult> {
         try {
-            const data = await NGALoaderFactory.create(config).load();
-            const entities = await NGAMapper.map(config.mapper.class, data);
+            const rawData = await NGALoaderFactory.create(config).load();
+            const entities = await NGAMapper.map(config.mapper.class, rawData);
             const cache = new NGADefaultCache(config.mapper.key, entities);
             NGACacheManager.getInstance().add(config.mapper.class, cache);
 
