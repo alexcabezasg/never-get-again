@@ -247,38 +247,6 @@ try {
 // Failed stores will retry on next refresh interval
 ```
 
-### Online Examples
-
-Try it out in your browser:
-
-[![Edit never-get-again-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/never-get-again-demo)
-
-Examples available:
-- [Basic Usage](https://codesandbox.io/s/never-get-again-basic)
-- [Custom Data Sources](https://codesandbox.io/s/never-get-again-custom)
-- [Advanced Indexing](https://codesandbox.io/s/never-get-again-indexing)
-- [Real-time Updates](https://codesandbox.io/s/never-get-again-realtime)
-
-### Type Safety
-
-The repository methods are fully typed:
-
-```typescript
-// TypeScript will enforce correct types
-const user = NGARepository.get<User>(User, 'user-123');
-if (user) {
-    // user is typed as User
-    console.log(user.name);
-}
-
-// Index lookups are also type-safe
-const adminUsers = NGARepository.getByIndex<User>(User, 'byRole', 'admin');
-adminUsers.forEach(user => {
-    // Each user is properly typed
-    console.log(user.email);
-});
-```
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
