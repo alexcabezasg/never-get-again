@@ -8,7 +8,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/alexcabezasg/never-get-again/main/assets/logo.png" alt="Never Get Again Logo" width="200"/>
+  <img src="./assets/logo.svg" alt="Never Get Again Logo" width="200"/>
 </p>
 
 A flexible and efficient data replication system that fetches data from various sources and maintains it in local caches, improving application performance and reducing external service load.
