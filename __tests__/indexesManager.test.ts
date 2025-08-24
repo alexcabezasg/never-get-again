@@ -1,4 +1,4 @@
-import { NGAIndexesManager } from 'src/indexesManager';
+import { NGAIndexesManager } from 'src/util/indexesManager';
 import { NGACacheManager } from 'src/util/cacheManager';
 import { NGAIndexConfig } from 'src/config/config';
 import { NGAIndexCache } from 'src/cache';

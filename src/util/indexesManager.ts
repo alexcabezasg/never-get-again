@@ -1,6 +1,6 @@
-import { NGAIndexConfig } from "./config/config";
-import { NGACacheManager } from "./util/cacheManager";
-import { NGAIndexCache } from "./cache";
+import { NGAIndexConfig } from "../config/config";
+import { NGACacheManager } from "./cacheManager";
+import { NGAIndexCache } from "../cache";
 
 export const NGAIndexesManager = {
     createIndex: (className: string, keyName: string, index: NGAIndexConfig, entities: any[]) => {

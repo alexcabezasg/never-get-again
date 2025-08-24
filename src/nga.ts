@@ -5,7 +5,7 @@ import { NGAConfigLoader } from "./config/configLoader";
 import { NGAConfig, NGAStoreConfig } from "./config/config";
 import { NGACacheManager } from "./util/cacheManager";
 import { NGALoaderFactory } from "./config/loaderFactory";
-import { NGAIndexesManager } from "./indexesManager";
+import { NGAIndexesManager } from "./util/indexesManager";
 
 const NGA = {
     start: async () => {
