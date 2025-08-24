@@ -15,7 +15,8 @@ describe('NGALoaderFactory', () => {
                 },
                 config: {
                     url: 'http://test.com/api'
-                }
+                },
+                indexes: []
             };
 
             const loader = NGALoaderFactory.create(config);
@@ -36,7 +37,8 @@ describe('NGALoaderFactory', () => {
                 },
                 config: {
                     url: 'http://test.com/api'
-                }
+                },
+                indexes: []
             };
 
             const loader = NGALoaderFactory.create(config);
@@ -54,7 +56,8 @@ describe('NGALoaderFactory', () => {
                 },
                 config: {
                     url: 'http://test.com/api'
-                }
+                },
+                indexes: []
             };
 
             const loader = NGALoaderFactory.create(config);
@@ -72,7 +75,8 @@ describe('NGALoaderFactory', () => {
                 },
                 config: {
                     url: 'http://test.com/api'
-                }
+                },
+                indexes: []
             };
 
             expect(() => NGALoaderFactory.create(config))
@@ -90,7 +94,8 @@ describe('NGALoaderFactory', () => {
                 },
                 config: {
                     url: 'http://test.com/api'
-                }
+                },
+                indexes: []
             };
 
             expect(() => NGALoaderFactory.create(config))

@@ -5,5 +5,8 @@ stores:
     mapper:
       class: User
       key: id
+    indexes:
+      - key: bySurname
+        field: surname
     config:
       url: http://localhost:3000/users

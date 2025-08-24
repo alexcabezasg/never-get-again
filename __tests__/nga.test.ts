@@ -28,14 +28,16 @@ describe('NGA', () => {
         type: 'http',
         refreshInterval: 60000,
         mapper: { class: 'TestEntity1', key: 'id' },
-        config: { url: 'http://test1.com' }
+        config: { url: 'http://test1.com' },
+        indexes: []
       },
       {
         name: 'TestStore2',
         type: 'http',
         refreshInterval: 120000,
         mapper: { class: 'TestEntity2', key: 'id' },
-        config: { url: 'http://test2.com' }
+        config: { url: 'http://test2.com' },
+        indexes: []
       }
     ]
   };

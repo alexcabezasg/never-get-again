@@ -34,7 +34,8 @@ describe('NGAConfigLoader', () => {
         },
         config: {
           url: 'http://localhost:3000/users'
-        }
+        },
+        indexes: []
       }
     ]
   };
@@ -151,7 +152,8 @@ stores:
             },
             config: {
               url: 'http://localhost:3000/users'
-            }
+            },
+            indexes: []
           },
           {
             name: 'products',
@@ -163,7 +165,8 @@ stores:
             },
             config: {
               url: 'http://localhost:3000/products'
-            }
+            },
+            indexes: []
           }
         ]
       };
