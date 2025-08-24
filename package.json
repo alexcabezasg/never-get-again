@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "npx ts-node src/testing/index.ts",
+    "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
