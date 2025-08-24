@@ -1,8 +1,24 @@
 # Never Get Again! A Data Replicator
 
+[![npm version](https://img.shields.io/npm/v/never-get-again.svg)](https://www.npmjs.com/package/never-get-again)
+[![npm downloads](https://img.shields.io/npm/dm/never-get-again.svg)](https://www.npmjs.com/package/never-get-again)
 [![CI](https://github.com/alexcabezasg/never-get-again/actions/workflows/ci.yml/badge.svg)](https://github.com/alexcabezasg/never-get-again/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/alexcabezasg/never-get-again/main/assets/logo.png" alt="Never Get Again Logo" width="200"/>
+</p>
 
 A flexible and efficient data replication system that fetches data from various sources and maintains it in local caches, improving application performance and reducing external service load.
+
+🚀 **Perfect for:**
+- Caching API responses
+- Real-time data synchronization
+- Offline-first applications
+- High-performance data access
+- Type-safe data management
 
 ## Features
 
@@ -16,9 +32,38 @@ A flexible and efficient data replication system that fetches data from various 
 
 ## Installation
 
+Using npm:
 ```bash
-npm install nga
+npm install never-get-again
 ```
+
+Using yarn:
+```bash
+yarn add never-get-again
+```
+
+Using pnpm:
+```bash
+pnpm add never-get-again
+```
+
+### Requirements
+- Node.js >= 14.0.0
+- TypeScript >= 4.5.0 (for TypeScript users)
+
+### Bundle Size
+
+| Package | Size (minified) | Size (gzipped) |
+|---------|----------------|----------------|
+| never-get-again | ~12KB | ~4KB |
+
+### Dependencies
+
+This package has minimal dependencies:
+- `js-yaml`: For YAML configuration parsing
+- `node-cache`: For efficient in-memory caching
+
+All dependencies are carefully chosen to maintain a small footprint while providing robust functionality.
 
 ## Quick Start
 
@@ -95,7 +140,7 @@ export class Product {
 3. Initialize the replicator:
 
 ```typescript
-import { NGAStart } from 'nga';
+import { NGAStart } from 'never-get-again';
 import { User } from './user';
 import { Product } from './product';
 
@@ -108,7 +153,7 @@ await NGAStart();
 4. Use the repository to access your data:
 
 ```typescript
-import { NGARepository } from 'nga';
+import { NGARepository } from 'never-get-again';
 import { User } from './user';
 import { Product } from './product';
 
@@ -155,7 +200,7 @@ Currently supported data source types:
 You can extend the system with custom data sources by implementing the `NGALoader` interface:
 
 ```typescript
-import { NGALoader } from 'nga';
+import { NGALoader } from 'never-get-again';
 
 export class CustomLoader implements NGALoader {
     async load(): Promise<Record<string, any>[]> {
@@ -201,6 +246,18 @@ try {
 // Individual store errors don't crash the system
 // Failed stores will retry on next refresh interval
 ```
+
+### Online Examples
+
+Try it out in your browser:
+
+[![Edit never-get-again-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/never-get-again-demo)
+
+Examples available:
+- [Basic Usage](https://codesandbox.io/s/never-get-again-basic)
+- [Custom Data Sources](https://codesandbox.io/s/never-get-again-custom)
+- [Advanced Indexing](https://codesandbox.io/s/never-get-again-indexing)
+- [Real-time Updates](https://codesandbox.io/s/never-get-again-realtime)
 
 ### Type Safety
 
