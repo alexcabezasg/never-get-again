@@ -1,5 +1,5 @@
-import { NGARepository } from 'src/repository';
-import { NGACacheManager } from 'src/util/cacheManager';
+import { NGARepository } from '../src/repository';
+import { NGACacheManager } from '../src/util/cacheManager';
 
 // Mock the CacheManager
 jest.mock('src/util/cacheManager');
@@ -37,7 +37,7 @@ describe('NGARepository', () => {
 
   describe('get', () => {
     it('should return entity when cache exists', () => {
-      const testEntity = new TestEntity('1', 'Test Entity');
+      const testEntity: Record<string, unknown> = { id: '1', name: 'Test Entity' };
       mockCache.get.mockReturnValue(testEntity);
 
       // Setup cache manager to return our mock cache
@@ -78,9 +78,9 @@ describe('NGARepository', () => {
 
   describe('all', () => {
     it('should return all entities when cache exists', () => {
-      const testEntities = [
-        new TestEntity('1', 'Test Entity 1'),
-        new TestEntity('2', 'Test Entity 2')
+      const testEntities: Record<string, unknown>[] = [
+        { id: '1', name: 'Test Entity 1' },
+        { id: '2', name: 'Test Entity 2' }
       ];
       mockCache.all.mockReturnValue(testEntities);
       (NGACacheManager.getInstance().get as jest.Mock).mockReturnValue(mockCache);

@@ -1,8 +1,8 @@
-import NGAMapper from 'src/mapper';
-import { ClassLoader } from 'src/util/classLoader';
+import NGAMapper from '../src/mapper';
+import { ClassLoader } from '../src/util/classLoader';
 
 // Mock the ClassLoader - needs to be before any test code
-jest.mock('src/util/classLoader');
+jest.mock('../src/util/classLoader');
 
 // Mock class for testing
 class TestUser {
@@ -21,7 +21,7 @@ beforeAll(() => {
 describe('NGAMapper', () => {
   describe('create', () => {
     it('should create an instance of a class with provided data', () => {
-      const data = {
+      const data: Record<string, unknown> = {
         id: 1,
         name: 'John Doe',
         email: 'john@example.com'
@@ -36,7 +36,7 @@ describe('NGAMapper', () => {
     });
 
     it('should ignore properties that are not in the class', () => {
-      const data = {
+      const data: Record<string, unknown> = {
         id: 1,
         name: 'John Doe',
         email: 'john@example.com',
@@ -52,7 +52,7 @@ describe('NGAMapper', () => {
 
   describe('map', () => {
     it('should map an array of entities to class instances', async () => {
-      const entities = [
+      const entities: unknown[] = [
         { id: 1, name: 'John Doe', email: 'john@example.com' },
         { id: 2, name: 'Jane Doe', email: 'jane@example.com' }
       ];

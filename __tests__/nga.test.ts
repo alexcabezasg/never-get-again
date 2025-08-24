@@ -1,10 +1,10 @@
-import NGAStart, { NGA } from 'src/nga';
-import { NGAConfigLoader } from 'src/config/configLoader';
-import NGAScheduler from 'src/util/scheduler';
-import NGAMapper from 'src/mapper';
-import { NGALoaderFactory } from 'src/config/loaderFactory';
-import { NGACacheManager } from 'src/util/cacheManager';
-import { NGAConfig, NGAStoreConfig } from 'src/config/config';
+import NGAStart, { NGA } from '../src/nga';
+import { NGAConfigLoader } from '../src/config/configLoader';
+import NGAScheduler from '../src/util/scheduler';
+import NGAMapper from '../src/mapper';
+import { NGALoaderFactory } from '../src/config/loaderFactory';
+import { NGACacheManager } from '../src/util/cacheManager';
+import { NGAConfig } from '../src/config/config';
 
 // Mock all dependencies
 jest.mock('src/config/configLoader');
@@ -57,7 +57,7 @@ describe('NGA', () => {
     (NGACacheManager.getInstance as jest.Mock).mockReturnValue({
       add: jest.fn()
     });
-    mockLoader.load.mockResolvedValue([{ id: '1', name: 'Test' }]);
+    mockLoader.load.mockResolvedValue([{ id: '1', name: 'Test' } as unknown]);
   });
 
   describe('start', () => {
@@ -89,7 +89,7 @@ describe('NGA', () => {
       const error = new Error('Load failed');
       mockLoader.load
         .mockRejectedValueOnce(error)
-        .mockResolvedValueOnce([{ id: '2', name: 'Test2' }]);
+        .mockResolvedValueOnce([{ id: '2', name: 'Test2' } as unknown]);
 
       const result = await NGA.start();
 
@@ -101,7 +101,7 @@ describe('NGA', () => {
 
   describe('load', () => {
     it('should successfully load data for a store', async () => {
-      const testData = [{ id: '1', name: 'Test' }];
+      const testData: unknown[] = [{ id: '1', name: 'Test' }];
       mockLoader.load.mockResolvedValue(testData);
 
       const result = await NGA.start();

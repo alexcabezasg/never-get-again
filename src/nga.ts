@@ -43,7 +43,7 @@ export class NGA {
             console.log(`[NGA] ✓ Successfully loaded ${entities.length} entities of type ${config.mapper.class}`);
             return { success: true, name: config.name };
         } catch (error) {
-            console.error(`[NGA] ✗ Failed to load: ${config.name}`);
+            console.error(`[NGA] ✗ Failed to load: ${config.name}: ${error}`);
             return { success: false, name: config.name, error };
         }
     }

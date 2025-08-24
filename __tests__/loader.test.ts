@@ -27,7 +27,7 @@ describe('NGAHttpLoader', () => {
     });
 
     it('should fetch data from the provided URL', async () => {
-      const mockData = [
+      const mockData: unknown[] = [
         { id: 1, name: 'Item 1' },
         { id: 2, name: 'Item 2' }
       ];

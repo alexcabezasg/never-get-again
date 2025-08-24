@@ -1,14 +1,14 @@
-import { NGAIndexesManager } from 'src/util/indexesManager';
-import { NGACacheManager } from 'src/util/cacheManager';
-import { NGAIndexConfig } from 'src/config/config';
-import { NGAIndexCache } from 'src/cache';
+import { NGAIndexesManager } from '../src/util/indexesManager';
+import { NGACacheManager } from '../src/util/cacheManager';
+import { NGAIndexConfig } from '../src/config/config';
+import { NGAIndexCache } from '../src/cache';
 
 // Mock CacheManager
 jest.mock('src/util/cacheManager');
 
 describe('NGAIndexesManager', () => {
   // Test data
-  const testEntities = [
+  const testEntities: Record<string, unknown>[] = [
     { id: '1', category: 'electronics', name: 'Laptop', price: 1000 },
     { id: '2', category: 'books', name: 'TypeScript Guide', price: 50 },
     { id: '3', category: 'electronics', name: 'Phone', price: 800 },
@@ -68,7 +68,7 @@ describe('NGAIndexesManager', () => {
     });
 
     it('should handle entities without index field', () => {
-      const entitiesWithoutField = [
+      const entitiesWithoutField: Record<string, unknown>[] = [
         { id: '1', name: 'Product 1' },
         { id: '2', name: 'Product 2' }
       ];
@@ -91,7 +91,7 @@ describe('NGAIndexesManager', () => {
         field: 'price'
       };
 
-      const entitiesWithSamePrice = [
+      const entitiesWithSamePrice: Record<string, unknown>[] = [
         { id: '1', price: 100, name: 'Product 1' },
         { id: '2', price: 100, name: 'Product 2' },
         { id: '3', price: 200, name: 'Product 3' }
@@ -106,7 +106,7 @@ describe('NGAIndexesManager', () => {
     });
 
     it('should handle entities without id field', () => {
-      const entitiesWithoutId = [
+      const entitiesWithoutId: Record<string, unknown>[] = [
         { category: 'A', name: 'Product 1' },
         { category: 'B', name: 'Product 2' }
       ];
@@ -125,7 +125,7 @@ describe('NGAIndexesManager', () => {
     });
 
     it('should handle large number of entities', () => {
-      const largeEntities = Array.from({ length: 1000 }, (_, i) => ({
+      const largeEntities: Record<string, unknown>[] = Array.from({ length: 1000 }, (_, i) => ({
         id: `id${i}`,
         category: `category${i % 10}`, // 10 different categories
         name: `Product ${i}`

@@ -3,6 +3,9 @@ import { ClassLoader } from "./util/classLoader";
 const NGAMapper = {
     async map<T>(klassName: string, entities: unknown[]): Promise<T[]> {
         const klass = await ClassLoader.getInstance().findClass(klassName);
+        if (!klass) {
+            throw new Error(`Class ${klassName} not found`);
+        }
         return entities.map(entity => {
             if (typeof entity !== 'object' || entity === null) {
                 throw new Error('Entity must be an object');
