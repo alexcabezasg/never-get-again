@@ -2,7 +2,7 @@ import { NGACache } from "../cache";
 
 export class NGACacheManager {
     private static instance: NGACacheManager;
-    private readonly caches: Map<string, NGACache> = new Map();
+    private readonly caches: Map<string, NGACache<any>> = new Map();
 
     private constructor() {}
 
@@ -13,11 +13,15 @@ export class NGACacheManager {
         return NGACacheManager.instance;
     }
 
-    add(cacheName: string, cache: NGACache) {
+    add<T>(cacheName: string, cache: NGACache<T>) {
         this.caches.set(cacheName, cache);
     }
 
-    get(cacheName: string): NGACache {
-        return this.caches.get(cacheName);
+    get<T>(cacheName: string): NGACache<T> {
+        const cache = this.caches.get(cacheName);
+        if (!cache) {
+            throw new Error(`Cache not found for ${cacheName}`);
+        }
+        return cache as NGACache<T>;
     }
 }

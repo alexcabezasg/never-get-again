@@ -1,8 +1,8 @@
-import { NGADefaultCache, NGAIndexCache } from 'src/cache';
+import { NGADefaultCache, NGAIndexCache } from '../src/cache';
 
 describe('NGADefaultCache', () => {
   // Test data
-  const testEntities = [
+  const testEntities: Record<string, unknown>[] = [
     { id: '1', name: 'Entity 1', value: 100 },
     { id: '2', name: 'Entity 2', value: 200 },
     { id: '3', name: 'Entity 3', value: 300 }
@@ -62,7 +62,7 @@ describe('NGADefaultCache', () => {
 
   describe('edge cases', () => {
     it('should handle entities with different id field names', () => {
-      const entitiesWithDifferentId = [
+      const entitiesWithDifferentId: Record<string, unknown>[] = [
         { customId: '1', name: 'Entity 1' },
         { customId: '2', name: 'Entity 2' }
       ];
@@ -71,7 +71,7 @@ describe('NGADefaultCache', () => {
     });
 
     it('should gracefully handle entities without specified id field', () => {
-      const entitiesWithoutId = [
+      const entitiesWithoutId: Record<string, unknown>[] = [
         { name: 'Entity 1' },
         { name: 'Entity 2' }
       ];

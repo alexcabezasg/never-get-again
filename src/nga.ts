@@ -7,10 +7,15 @@ import { NGACacheManager } from "./util/cacheManager";
 import { NGALoaderFactory } from "./config/loaderFactory";
 import { NGAIndexesManager } from "./util/indexesManager";
 
-const NGA = {
-    start: async () => {
-        try {
+interface LoadResult {
+    success: boolean;
+    name: string;
+    error?: unknown;
+}
 
+export class NGA {
+    public static async start(): Promise<LoadResult[]> {
+        try {
             console.log('[NGA] Starting data load...');
 
             const configs: NGAConfig = NGAConfigLoader.load();
@@ -18,17 +23,16 @@ const NGA = {
                 NGAScheduler.schedule(config.refreshInterval, () => NGA.load(config));
                 return await NGA.load(config);
             }));
-
         } catch (error) {
             console.error('Fatal error during startup:', error);
             throw error;
         }
-    },
+    }
 
-    load: async (config: NGAStoreConfig) => {
+    public static async load(config: NGAStoreConfig): Promise<LoadResult> {
         try {
-            const data = await NGALoaderFactory.create(config).load();
-            const entities = await NGAMapper.map(config.mapper.class, data);
+            const rawData = await NGALoaderFactory.create(config).load();
+            const entities = await NGAMapper.map(config.mapper.class, rawData);
             const cache = new NGADefaultCache(config.mapper.key, entities);
             NGACacheManager.getInstance().add(config.mapper.class, cache);
 
@@ -39,10 +43,10 @@ const NGA = {
             console.log(`[NGA] ✓ Successfully loaded ${entities.length} entities of type ${config.mapper.class}`);
             return { success: true, name: config.name };
         } catch (error) {
-            console.error(`[NGA] ✗ Failed to load: ${config.name}`);
+            console.error(`[NGA] ✗ Failed to load: ${config.name}: ${error}`);
             return { success: false, name: config.name, error };
         }
     }
 }
 
-export default NGA.start;
+export default NGA;

@@ -59,7 +59,7 @@ describe('ClassLoader', () => {
 
       const result = await classLoader.findClass('TestClass');
       expect(result).toBeDefined();
-      expect(result.name).toBe('TestClass');
+      expect(result?.name).toBe('TestClass');
       expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(srcPath, 'TestClass');
     });
 
@@ -71,7 +71,7 @@ describe('ClassLoader', () => {
 
       const result = await classLoader.findClass('TestClass');
       expect(result).toBeDefined();
-      expect(result.name).toBe('TestClass');
+      expect(result?.name).toBe('TestClass');
       expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(srcPath, 'TestClass');
     });
 

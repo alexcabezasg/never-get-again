@@ -1,10 +1,10 @@
-import NGAStart from 'src/nga';
-import { NGAConfigLoader } from 'src/config/configLoader';
-import NGAScheduler from 'src/util/scheduler';
-import NGAMapper from 'src/mapper';
-import { NGALoaderFactory } from 'src/config/loaderFactory';
-import { NGACacheManager } from 'src/util/cacheManager';
-import { NGAConfig, NGAStoreConfig } from 'src/config/config';
+import NGAStart, { NGA } from '../src/nga';
+import { NGAConfigLoader } from '../src/config/configLoader';
+import NGAScheduler from '../src/util/scheduler';
+import NGAMapper from '../src/mapper';
+import { NGALoaderFactory } from '../src/config/loaderFactory';
+import { NGACacheManager } from '../src/util/cacheManager';
+import { NGAConfig } from '../src/config/config';
 
 // Mock all dependencies
 jest.mock('src/config/configLoader');
@@ -57,12 +57,12 @@ describe('NGA', () => {
     (NGACacheManager.getInstance as jest.Mock).mockReturnValue({
       add: jest.fn()
     });
-    mockLoader.load.mockResolvedValue([{ id: '1', name: 'Test' }]);
+    mockLoader.load.mockResolvedValue([{ id: '1', name: 'Test' } as unknown]);
   });
 
   describe('start', () => {
     it('should successfully start and load all stores', async () => {
-      const result = await NGAStart();
+      const result = await NGA.start();
 
       expect(NGAConfigLoader.load).toHaveBeenCalled();
       expect(NGAScheduler.schedule).toHaveBeenCalledTimes(2);
@@ -80,7 +80,7 @@ describe('NGA', () => {
         throw error;
       });
 
-      await expect(NGAStart()).rejects.toThrow('Config load failed');
+      await expect(NGA.start()).rejects.toThrow('Config load failed');
       expect(mockConsoleError).toHaveBeenCalledWith('Fatal error during startup:', error);
     });
 
@@ -89,9 +89,9 @@ describe('NGA', () => {
       const error = new Error('Load failed');
       mockLoader.load
         .mockRejectedValueOnce(error)
-        .mockResolvedValueOnce([{ id: '2', name: 'Test2' }]);
+        .mockResolvedValueOnce([{ id: '2', name: 'Test2' } as unknown]);
 
-      const result = await NGAStart();
+      const result = await NGA.start();
 
       expect(result).toHaveLength(2);
       expect(result[0]).toEqual({ success: false, name: 'TestStore1', error });
@@ -101,10 +101,10 @@ describe('NGA', () => {
 
   describe('load', () => {
     it('should successfully load data for a store', async () => {
-      const testData = [{ id: '1', name: 'Test' }];
+      const testData: unknown[] = [{ id: '1', name: 'Test' }];
       mockLoader.load.mockResolvedValue(testData);
 
-      const result = await NGAStart();
+      const result = await NGA.start();
 
       expect(NGALoaderFactory.create).toHaveBeenCalled();
       expect(NGAMapper.map).toHaveBeenCalled();
@@ -119,7 +119,7 @@ describe('NGA', () => {
       const error = new Error('Load failed');
       mockLoader.load.mockRejectedValue(error);
 
-      const result = await NGAStart();
+      const result = await NGA.start();
 
       expect(mockConsoleError).toHaveBeenCalledWith(
         expect.stringContaining('Failed to load: TestStore1')
@@ -135,7 +135,7 @@ describe('NGA', () => {
       const error = new Error('Mapping failed');
       (NGAMapper.map as jest.Mock).mockRejectedValue(error);
 
-      const result = await NGAStart();
+      const result = await NGA.start();
 
       expect(mockConsoleError).toHaveBeenCalledWith(
         expect.stringContaining('Failed to load: TestStore1')

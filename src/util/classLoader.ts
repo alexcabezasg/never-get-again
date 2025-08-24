@@ -14,7 +14,7 @@ export class ClassLoader {
         return ClassLoader.instance;
     }
 
-    async findClass(className: string): Promise<new () => any> {
+    async findClass(className: string): Promise<(new () => any) | undefined> {
         // Start searching from src directory
         try {
             const srcPath = join(process.cwd(), 'src');
