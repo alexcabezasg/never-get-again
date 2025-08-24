@@ -1,6 +1,6 @@
-# Data Replicator
+# Never Get Again! A Data Replicator
 
-[![CI](https://github.com/alexcabezas0/data-replicator/actions/workflows/ci.yml/badge.svg)](https://github.com/alexcabezas0/data-replicator/actions/workflows/ci.yml)
+[![CI](https://github.com/alexcabezasg/never-get-again/actions/workflows/ci.yml/badge.svg)](https://github.com/alexcabezasg/never-get-again/actions/workflows/ci.yml)
 
 A flexible and efficient data replication system that fetches data from various sources and maintains it in local caches, improving application performance and reducing external service load.
 
@@ -16,7 +16,7 @@ A flexible and efficient data replication system that fetches data from various 
 ## Installation
 
 ```bash
-npm install data-replicator
+npm install nga
 ```
 
 ## Quick Start
@@ -44,7 +44,7 @@ stores:
       url: http://api.example.com/products
 ```
 
-2. Define your entity classes:
+2. Define your entity classes (empty constructor is required):
 
 ```typescript
 // user.ts
@@ -52,6 +52,12 @@ export class User {
     id: string;
     name: string;
     email: string;
+
+    constructor() {
+      this.id = '';
+      this.name = '';
+      this.email = '';
+    }
 }
 
 // product.ts
@@ -59,13 +65,19 @@ export class Product {
     sku: string;
     name: string;
     price: number;
+
+    constructor() {
+      this.sku = '';
+      this.name = '';
+      this.price = 0;
+    }
 }
 ```
 
 3. Initialize the replicator:
 
 ```typescript
-import { NGAStart } from 'data-replicator';
+import { NGAStart } from 'nga';
 import { User } from './user';
 import { Product } from './product';
 
@@ -78,7 +90,7 @@ await NGAStart();
 4. Use the repository to access your data:
 
 ```typescript
-import { NGARepository } from 'data-replicator';
+import { NGARepository } from 'nga';
 import { User } from './user';
 import { Product } from './product';
 
@@ -116,7 +128,7 @@ Currently supported data source types:
 You can extend the system with custom data sources by implementing the `NGALoader` interface:
 
 ```typescript
-import { NGALoader } from 'data-replicator';
+import { NGALoader } from 'nga';
 
 export class CustomLoader implements NGALoader {
     async load(): Promise<Record<string, any>[]> {
