@@ -16,14 +16,19 @@ export class ClassLoader {
 
     async findClass(className: string): Promise<new () => any> {
         // Start searching from src directory
-        const srcPath = join(process.cwd(), 'src');
-        const classModule = await this.searchClassInDirectory(srcPath, className);
+        try {
+            const srcPath = join(process.cwd(), 'src');
+            const classModule = await this.searchClassInDirectory(srcPath, className);
 
-        if (!classModule) {
-            throw new Error(`Class ${className} not found in the project`);
+            if (!classModule) {
+                throw new Error(`Class ${className} not found in the project`);
+            }
+
+            return classModule.default;
+        } catch (error) {
+            console.error(`Error loading class ${className}:`, error);
+            return undefined;
         }
-
-        return classModule.default;
     }
 
     private async searchClassInDirectory(directory: string, className: string): Promise<any> {

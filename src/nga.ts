@@ -1,18 +1,19 @@
 import NGAScheduler from "./scheduler";
 import NGAMapper from "./mapper";
 import NGACache from "./cache";
-import { NGAConfigLoader } from "./configLoader";
-import { NGAConfig } from "./config";
+import { NGAConfigLoader } from "./config/configLoader";
+import { NGAConfig, NGAStoreConfig } from "./config/config";
 import { NGACacheManager } from "./cacheManager";
+import { NGALoaderFactory } from "./config/loaderFactory";
 
 const NGA = {
     start: async () => {
         try {
-            const configs: NGAConfig[] = await NGAConfigLoader.load();
 
             console.log('[NGA] Starting data load...');
 
-            const loadResults = await Promise.all(configs.map(async (config) => {
+            const configs: NGAConfig = NGAConfigLoader.load();
+            const loadResults = await Promise.all(configs.stores.map(async (config) => {
                 NGAScheduler.schedule(config.refreshInterval, () => NGA.load(config));
                 return await NGA.load(config);
             }));
@@ -22,7 +23,7 @@ const NGA = {
             console.log(`[NGA] ✓ Successfully loaded: ${successful.length} configurations`);
             if (failed.length > 0) {
                 console.log(`[NGA] ✗ Failed to load: ${failed.length} configurations`);
-                failed.forEach(f => console.log(`[NGA]   - ${f.name}: ${f.error}`));
+                failed.forEach(f => console.log(`[NGA]   - ${f.name}`));
             }
 
         } catch (error) {
@@ -31,12 +32,12 @@ const NGA = {
         }
     },
 
-    load: async (config: NGAConfig) => {
+    load: async (config: NGAStoreConfig) => {
         try {
-            const data = await config.loader.load();
-            const entities = NGAMapper.map(config.mapper.klass, data);
+            const data = await NGALoaderFactory.create(config).load();
+            const entities = await NGAMapper.map(config.mapper.class, data);
             const cache = new NGACache(config.mapper.key, entities);
-            NGACacheManager.getInstance().add(config.mapper.klass.name, cache);
+            NGACacheManager.getInstance().add(config.mapper.class, cache);
             console.log(`[NGA] ✓ Successfully loaded: ${config.name}`);
             return { success: true, name: config.name };
         } catch (error) {

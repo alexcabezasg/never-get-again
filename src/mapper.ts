@@ -1,5 +1,8 @@
+import { ClassLoader } from "./util/classLoader";
+
 const NGAMapper = {
-    map<T>(klass: new () => T, entities: Record<string, any>[]): T[] {
+    async map<T>(klassName: string, entities: Record<string, any>[]): Promise<T[]> {
+        const klass = await ClassLoader.getInstance().findClass(klassName);
         return entities.map(entity => {
             return this.create(klass, entity);
         });
