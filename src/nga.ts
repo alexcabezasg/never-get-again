@@ -18,13 +18,7 @@ const NGA = {
                 return await NGA.load(config);
             }));
 
-            const successful = loadResults.filter(r => r.success);
-            const failed = loadResults.filter(r => !r.success);
-            console.log(`[NGA] ✓ Successfully loaded: ${successful.length} configurations`);
-            if (failed.length > 0) {
-                console.log(`[NGA] ✗ Failed to load: ${failed.length} configurations`);
-                failed.forEach(f => console.log(`[NGA]   - ${f.name}`));
-            }
+            printResults(loadResults);
 
         } catch (error) {
             console.error('Fatal error during startup:', error);
@@ -44,6 +38,16 @@ const NGA = {
             console.error(`[NGA] ✗ Failed to load: ${config.name}`);
             return { success: false, name: config.name, error };
         }
+    }
+}
+
+const printResults = (results: { success: boolean, name: string, error?: any }[]) => {
+    const successful = results.filter(r => r.success);
+    const failed = results.filter(r => !r.success);
+    console.log(`[NGA] ✓ Successfully loaded: ${successful.length} configurations`);
+    if (failed.length > 0) {
+        console.log(`[NGA] ✗ Failed to load: ${failed.length} configurations`);
+        failed.forEach(f => console.log(`[NGA]   - ${f.name}`));
     }
 }
 

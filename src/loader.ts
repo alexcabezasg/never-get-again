@@ -1,5 +1,3 @@
-import { NGAHttpConfig } from "./config/config";
-
 export interface NGALoader {
     load() : Promise<Record<string, any>[]>
 }
