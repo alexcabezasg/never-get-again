@@ -18,7 +18,6 @@ console.error = mockConsoleError;
 
 describe('ClassLoader', () => {
   const mockCwd = '/test/project';
-  const srcPath = join(mockCwd, 'src');
 
   beforeEach(() => {
     // Reset all mocks before each test
@@ -60,7 +59,7 @@ describe('ClassLoader', () => {
       const result = await classLoader.findClass('TestClass');
       expect(result).toBeDefined();
       expect(result?.name).toBe('TestClass');
-      expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(srcPath, 'TestClass');
+      expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(mockCwd, 'TestClass');
     });
 
     it('should find a class in a nested directory', async () => {
@@ -72,7 +71,7 @@ describe('ClassLoader', () => {
       const result = await classLoader.findClass('TestClass');
       expect(result).toBeDefined();
       expect(result?.name).toBe('TestClass');
-      expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(srcPath, 'TestClass');
+      expect((classLoader as any).searchClassInDirectory).toHaveBeenCalledWith(mockCwd, 'TestClass');
     });
 
     it('should return undefined when class is not found', async () => {
@@ -119,7 +118,7 @@ describe('ClassLoader', () => {
       }));
 
       // Call the private method directly
-      const result = await (classLoader as any).searchClassInDirectory(srcPath, 'TestClass');
+      const result = await (classLoader as any).searchClassInDirectory(mockCwd, 'TestClass');
       expect(readdirSync).toHaveBeenCalledTimes(2);
     });
 
@@ -132,7 +131,7 @@ describe('ClassLoader', () => {
       });
 
       // Call the private method directly
-      await (classLoader as any).searchClassInDirectory(srcPath, 'TestClass');
+      await (classLoader as any).searchClassInDirectory(mockCwd, 'TestClass');
       expect(readdirSync).toHaveBeenCalledTimes(1);
     });
 
