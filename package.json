@@ -1,6 +1,6 @@
 {
   "name": "never-get-again",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A flexible and efficient data replication system that fetches data from various sources and maintains it in local caches",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
