@@ -62,8 +62,10 @@ pnpm add never-get-again
 This package has minimal dependencies:
 - `js-yaml`: For YAML configuration parsing
 - `node-cache`: For efficient in-memory caching
+- `mongodb`: For MongoDB fallback system (optional, only required if using MongoDB fallback)
+- `dotenv`: For environment variable management (optional, only required if using MongoDB fallback)
 
-All dependencies are carefully chosen to maintain a small footprint while providing robust functionality.
+All dependencies are carefully chosen to maintain a small footprint while providing robust functionality. MongoDB and dotenv dependencies are only loaded when using the MongoDB fallback system.
 
 ## Quick Start
 
@@ -178,6 +180,7 @@ const expensiveProducts = NGARepository.getByIndex<Product>(Product, 'byPrice', 
 |-------|------|-------------|
 | name | string | Unique identifier for the store |
 | type | string | Data source type (e.g., 'http') |
+| fallback | string | Optional. Fallback system type (e.g., 'mongo') |
 | refreshInterval | number | Milliseconds between data refreshes |
 | mapper | object | Entity mapping configuration |
 | mapper.class | string | Entity class name |
@@ -192,6 +195,82 @@ const expensiveProducts = NGARepository.getByIndex<Product>(Product, 'byPrice', 
 
 Currently supported data source types:
 - `http`: Fetch data from HTTP/HTTPS endpoints
+
+### Fallback Mechanism
+
+Never Get Again includes a robust fallback system that allows you to persist your data in case of service outages or network issues. This ensures your application can continue functioning even when the primary data source is unavailable.
+
+#### Configuration
+
+Add fallback configuration to your store in `nga.yml`:
+
+```yaml
+stores:
+  - name: users
+    type: http
+    fallback: mongo  # Specify the fallback type
+    refreshInterval: 5000
+    # ... rest of store configuration
+```
+
+#### Supported Fallback Systems
+
+Currently supported fallback types:
+- `mongo`: MongoDB-based fallback storage
+
+#### MongoDB Fallback Configuration
+
+When using MongoDB as a fallback system, you need to configure the following environment variables:
+
+```env
+MONGO_URL=mongodb://your-mongodb-url
+MONGO_DB=your-database-name
+MONGO_COLLECTION=your-collection-name
+```
+
+The MongoDB fallback system will:
+- Automatically save data when first fetched from the primary source
+- Only save data if no previous fallback exists (prevents overwriting)
+- Encode entities in base64 format for secure storage
+- Automatically recover data when primary source is unavailable
+
+Example `.env` file:
+```env
+MONGO_URL=mongodb://localhost:27017
+MONGO_DB=nga_fallback
+MONGO_COLLECTION=fallback_data
+```
+
+#### How Fallback Works
+
+1. **Data Saving:**
+   - When data is fetched from the primary source, it's automatically saved to the fallback system
+   - Data is stored in a base64-encoded format for consistency
+   - Each store's data is saved separately with a unique store identifier
+   - Existing fallback data is never overwritten to prevent data loss
+
+2. **Data Recovery:**
+   - If the primary data source becomes unavailable, the system automatically attempts to recover data from the fallback
+   - Recovery is transparent to the application code
+   - If no fallback data exists, an empty array is returned
+   - Recovered data is automatically decoded and type-cast to match your entity types
+
+3. **Error Handling:**
+   - Connection errors are properly handled and reported
+   - Failed fallback operations don't crash your application
+   - Detailed logging helps track fallback operations
+
+#### Example Usage
+
+The fallback system is automatically integrated with your stores. No additional code is required in your application:
+
+```typescript
+// The system automatically handles fallback operations
+const users = NGARepository.all<User>(User);
+
+// If the primary source is down, data is automatically
+// recovered from the fallback system
+```
 
 ## Advanced Usage
 

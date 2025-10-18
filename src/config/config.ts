@@ -9,6 +9,7 @@ export interface NGAStoreConfig {
     mapper: NGAMapperConfig;
     refreshInterval: number;
     indexes: NGAIndexConfig[];
+    fallback?: string;
 }
 
 export interface NGAIndexConfig {

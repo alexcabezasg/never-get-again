@@ -6,6 +6,7 @@ import { NGAConfig, NGAStoreConfig } from "./config/config";
 import { NGACacheManager } from "./util/cacheManager";
 import { NGALoaderFactory } from "./config/loaderFactory";
 import { NGAIndexesManager } from "./util/indexesManager";
+import { NGAFallback } from "./persistence/fallback/fallback";
 
 interface LoadResult {
     success: boolean;
@@ -36,17 +37,36 @@ export class NGA {
             const cache = new NGADefaultCache(config.mapper.key, entities);
             NGACacheManager.getInstance().add(config.mapper.class, cache);
 
-            config.indexes.forEach((index) => {
-                NGAIndexesManager.createIndex(config.mapper.class, config.mapper.key, index, entities);
-            });
+            if (config.indexes) {
+                config.indexes.forEach((index) => {
+                    NGAIndexesManager.createIndex(config.mapper.class, config.mapper.key, index, entities);
+                });
+            }
+
+            await NGAFallback.save(config.name, config.fallback, entities);
 
             console.log(`[NGA] ✓ Successfully loaded ${entities.length} entities of type ${config.mapper.class}`);
             return { success: true, name: config.name };
         } catch (error) {
             console.error(`[NGA] ✗ Failed to load: ${config.name}: ${error}`);
+            await recoverFromFallback(config);
             return { success: false, name: config.name, error };
         }
     }
+}
+
+async function recoverFromFallback(config: NGAStoreConfig): Promise<void> {
+    const recoveredEntities = await NGAFallback.recover(config.name, config.fallback);
+    const cache = new NGADefaultCache(config.mapper.key, recoveredEntities);
+    NGACacheManager.getInstance().add(config.mapper.class, cache);
+
+    if (config.indexes) {
+        config.indexes.forEach((index) => {
+            NGAIndexesManager.createIndex(config.mapper.class, config.mapper.key, index, recoveredEntities);
+        });
+    }
+
+    console.log(`[NGA] ✓ Successfully recovered ${recoveredEntities.length} entities of type ${config.mapper.class}`);
 }
 
 export default NGA;
